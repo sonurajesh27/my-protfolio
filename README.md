@@ -1,16 +1,80 @@
-# React + Vite
+# Sonu Rajesh | Premium OS-Themed Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A futuristic, high-fidelity developer portfolio built with **React 19**, **Vite**, and **Framer Motion**, styled with a custom cybernetic operating system dashboard aesthetic.
 
-Currently, two official plugins are available:
+🌐 **Live URL:** [sonurajesh.vercel.app](https://sonurajesh.vercel.app) (or your custom Vercel link)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🖥️ Architecture & Design Aesthetics
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This portfolio is designed to mimic a high-performance terminal console system:
+*   **Holographic Decryption Boot Screen:** A custom loading animation that simulates cryptographic character decryption settling into a glowing `SR` monogram with expanding radial energy shockwaves.
+*   **Rotating HUD Orbit Rings:** A rectangular profile portrait framed by concentric, counter-rotating orbit rings carrying upright, self-leveling skill badges representing core disciplines.
+*   **2x2 Grid Skills Monitor:** A unified server resource monitor dashboard showing all technical skill processes simultaneously with active, simulated CPU activity graphs.
+*   **Interactive Case Studies:** Glowing project dashboard panels opening deep-dive modal case studies complete with simulated performance analytics charts built using **Recharts**.
 
-## Expanding the Oxlint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## 🛠️ Technical Stack
+
+*   **Core:** React 19, Vite, JavaScript (ES6+)
+*   **Styling & Motion:** Framer Motion, Vanilla CSS (Glassmorphism, custom cyber-grids, and neon drop-shadows)
+*   **Data Visualization:** Recharts (responsive analytics bars)
+*   **Icons:** Lucide React
+
+---
+
+## 📁 Repository Structure
+
+```
+├── public/                 # Static assets (Resume, Conference Paper, profile)
+├── src/
+│   ├── assets/             # SVG icons & local images
+│   ├── components/         # Reusable OS interface components
+│   │   ├── BootScreen.jsx  # Cryptographic decryption startup loader
+│   │   ├── Navigation.jsx  # Navigation bar with SR monogram logo
+│   │   ├── Hero.jsx        # Portrait with rotating HUD orbit rings
+│   │   ├── Skills.jsx      # 2x2 grid console technical dashboard
+│   │   ├── Projects.jsx    # Projects grid & detailed case study modals
+│   │   ├── About.jsx       # Interactive journey timeline & milestones
+│   │   └── Contact.jsx     # Cyberpunk feedback terminal and links
+│   ├── data/
+│   │   └── portfolioData.js# Structured personal & portfolio datasets
+│   ├── App.jsx             # Main layout shell
+│   └── main.jsx            # React mounting entrypoint
+```
+
+---
+
+## 🚀 Local Development Setup
+
+To run this project locally, execute the following commands in your shell:
+
+1.  **Clone the Repository:**
+    ```bash
+    git clone https://github.com/sonurajesh27/my-protfolio.git
+    cd my-protfolio
+    ```
+
+2.  **Install Dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Start the Local Dev Server:**
+    ```bash
+    npm run dev
+    ```
+
+4.  **Create a Production Build:**
+    ```bash
+    npm run build
+    ```
+
+---
+
+## 📄 License & Ownership
+
+Developed with 💜 by **Sonu Rajesh**. All rights reserved. 
+Constructed using modern, responsive web engineering principles, optimized for rapid rendering and fluid user experiences.
