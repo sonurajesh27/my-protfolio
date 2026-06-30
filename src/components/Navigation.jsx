@@ -53,7 +53,7 @@ const Navigation = () => {
         {/* Brand */}
         <div className="nav-brand" onClick={() => handleNavClick('hero')}>
           <span className="brand-text">
-            Sonu<span className="text-gradient-purple">.dev</span>
+            S<span className="text-gradient-purple">R</span>
           </span>
         </div>
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Brain, Cpu, Database, Laptop, CheckCircle, Activity } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import './Skills.css';
@@ -13,7 +13,7 @@ const CATEGORY_META = [
 
 /* Animated bar that randomly fluctuates to simulate CPU activity */
 const ActivityBar = ({ color, active }) => {
-  const [bars, setBars] = useState(() => Array.from({ length: 12 }, () => Math.random() * 60 + 10));
+  const [bars, setBars] = useState(() => Array.from({ length: 8 }, () => Math.random() * 60 + 10));
 
   useEffect(() => {
     if (!active) return;
@@ -41,52 +41,9 @@ const ActivityBar = ({ color, active }) => {
   );
 };
 
-/* Typewriter effect for skills list */
-const TypewriterSkills = ({ skills, color }) => {
-  const [shown, setShown] = useState(0);
-
-  useEffect(() => {
-    setShown(0);
-    let i = 0;
-    const t = setInterval(() => {
-      i++;
-      setShown(i);
-      if (i >= skills.length) clearInterval(t);
-    }, 80);
-    return () => clearInterval(t);
-  }, [skills]);
-
-  return (
-    <div className="skill-list-terminal">
-      {skills.map((skill, idx) => (
-        <motion.div
-          key={skill}
-          className="skill-terminal-row"
-          initial={{ opacity: 0, x: -6 }}
-          animate={{ opacity: idx < shown ? 1 : 0, x: idx < shown ? 0 : -6 }}
-          transition={{ duration: 0.2 }}
-          style={{ '--skill-color': color }}
-        >
-          <span className="skill-prompt" style={{ color }}>›</span>
-          <span className="skill-name">{skill}</span>
-          <span className="skill-status">loaded</span>
-        </motion.div>
-      ))}
-    </div>
-  );
-};
-
 const Skills = () => {
   const { skills } = portfolioData;
-  const [activeCategory, setActiveCategory] = useState(0);
-  const [direction, setDirection]           = useState(1);
   const [uptime, setUptime] = useState(0);
-
-  const handleCategoryChange = (idx) => {
-    if (idx === activeCategory) return;
-    setDirection(idx > activeCategory ? 1 : -1);
-    setActiveCategory(idx);
-  };
 
   /* Simulated uptime counter */
   useEffect(() => {
@@ -100,10 +57,6 @@ const Skills = () => {
     const sec = String(s % 60).padStart(2, '0');
     return `${h}:${m}:${sec}`;
   };
-
-  const active = skills[activeCategory];
-  const meta   = CATEGORY_META[activeCategory];
-  const Icon   = meta.icon;
 
   return (
     <section id="skills" className="skills-section">
@@ -123,90 +76,69 @@ const Skills = () => {
           <span className="monitor-uptime">uptime {fmt(uptime)}</span>
         </div>
 
+        {/* ── MONITOR BODY (Grid Layout) ── */}
         <div className="monitor-body">
-
-          {/* ── LEFT: process list ── */}
-          <div className="process-list">
-            <div className="process-list-header">
-              <span>PID</span>
-              <span>PROCESS</span>
-              <span>STATUS</span>
-            </div>
-            {skills.map((cat, idx) => {
-              const m = CATEGORY_META[idx];
-              const M = m.icon;
-              return (
-                <button
-                  key={cat.category}
-                  className={`process-row ${activeCategory === idx ? 'active' : ''}`}
-                  onClick={() => handleCategoryChange(idx)}
-                  style={{ '--p-color': m.color }}
-                >
-                  <span className="process-pid">{m.pid}</span>
-                  <span className="process-name">
-                    <M size={13} />
-                    {m.label}
-                  </span>
-                  <span className="process-badge">
-                    <span className="process-dot" style={{ background: m.color }} />
-                    {activeCategory === idx ? 'ACTIVE' : 'IDLE'}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* ── RIGHT: detail panel ── */}
-          <div className="process-detail">
-
-            {/* header row */}
-            <div className="detail-header">
-              <div className="detail-proc-name" style={{ color: meta.color }}>
-                <Icon size={18} />
-                <span>{meta.label}</span>
-                <span className="detail-pid">{meta.pid}</span>
-              </div>
-              <ActivityBar color={meta.color} active={true} />
-            </div>
-
-            {/* skills list */}
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={activeCategory}
-                custom={direction}
-                initial={{ opacity: 0, y: direction * 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: direction * -30 }}
-                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="detail-content"
+          {skills.map((cat, idx) => {
+            const meta = CATEGORY_META[idx];
+            const Icon = meta.icon;
+            return (
+              <motion.div 
+                key={cat.category}
+                className="skills-panel-card"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                style={{ '--p-color': meta.color }}
               >
-                <TypewriterSkills skills={active.items} color={meta.color} />
-
-                {/* domain description */}
-                <div className="detail-meta" style={{ borderColor: meta.color + '22' }}>
-                  <div className="detail-meta-label" style={{ color: meta.color }}>
-                    <Activity size={11} /> DOMAIN_SYNTHESIS
+                {/* Panel Header */}
+                <div className="panel-header">
+                  <div className="panel-title" style={{ color: meta.color }}>
+                    <Icon size={16} className="panel-icon" />
+                    <span className="panel-label">{meta.label}</span>
+                    <span className="panel-pid">{meta.pid}</span>
                   </div>
-                  {activeCategory === 0 && <p>Building robust NLP systems — RAG pipelines, vector indices, and LLM orchestration to eliminate hallucination in enterprise data.</p>}
-                  {activeCategory === 1 && <p>Algorithmic precision — deep neural architectures, SMOTE for class imbalance, and production-grade model evaluation pipelines.</p>}
-                  {activeCategory === 2 && <p>Full-stack delivery — React/Vite frontends with FastAPI microservices, MongoDB and SQL datastores, deployed on Vercel.</p>}
-                  {activeCategory === 3 && <p>HCI + BA synthesis — Fitts's Law, WCAG AA accessibility, Agile sprint facilitation, and BRD documentation.</p>}
-                  <div className="detail-checks">
-                    <span><CheckCircle size={11} /> State Verified</span>
-                    <span><CheckCircle size={11} /> Latency Optimized</span>
+                  <ActivityBar color={meta.color} active={true} />
+                </div>
+
+                {/* Skills Rows */}
+                <div className="panel-skills-list">
+                  {cat.items.map((skill) => (
+                    <div key={skill} className="skill-terminal-row">
+                      <span className="skill-prompt" style={{ color: meta.color }}>›</span>
+                      <span className="skill-name">{skill}</span>
+                      <span className="skill-status">loaded</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Domain Synthesis Description */}
+                <div className="panel-meta" style={{ borderColor: meta.color + '15' }}>
+                  <div className="panel-meta-label" style={{ color: meta.color }}>
+                    <Activity size={11} className="pulse-icon" /> DOMAIN_SYNTHESIS
+                  </div>
+                  <p className="panel-desc">
+                    {idx === 0 && "Building robust NLP systems — RAG pipelines, vector indices, and LLM orchestration to eliminate hallucination in enterprise data."}
+                    {idx === 1 && "Algorithmic precision — deep neural architectures, SMOTE for class imbalance, and production-grade model evaluation pipelines."}
+                    {idx === 2 && "Full-stack delivery — React/Vite frontends with FastAPI microservices, MongoDB and SQL datastores, deployed on Vercel."}
+                    {idx === 3 && "HCI + BA synthesis — Fitts's Law, WCAG AA accessibility, Agile sprint planning, and BRD documentation."}
+                  </p>
+                  <div className="panel-checks">
+                    <span><CheckCircle size={10} /> State Verified</span>
+                    <span><CheckCircle size={10} /> Latency Checked</span>
                   </div>
                 </div>
               </motion.div>
-            </AnimatePresence>
-          </div>
+            );
+          })}
         </div>
 
         {/* ── STATUS BAR ── */}
         <div className="monitor-statusbar">
           <span className="sb-item green">● SYSTEM READY</span>
-          <span className="sb-item">PROCESSES: {skills.length} LOADED</span>
+          <span className="sb-item">PROCESSES: {skills.length} RUNNING</span>
           <span className="sb-item">MODULES: {skills.reduce((a, s) => a + s.items.length, 0)} ACTIVE</span>
-          <span className="sb-item cyan">SELECTED: {meta.label}</span>
+          <span className="sb-item cyan">DISPLAY: ALL TASKS RENDERED</span>
         </div>
       </div>
     </section>

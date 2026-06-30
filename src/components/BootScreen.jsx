@@ -1,47 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const bootLines = [
-  { prefix: 'ok',   text: 'Booting portfolio environment...' },
-  { prefix: 'ok',   text: 'Loading AI & GenAI modules' },
-  { prefix: 'info', text: 'Mounting RAG pipeline subsystem' },
-  { prefix: 'ok',   text: 'React renderer — ready' },
-  { prefix: 'ok',   text: 'Data Science stack — online' },
-  { prefix: 'info', text: 'Syncing project case studies' },
-  { prefix: 'ok',   text: 'HCI systems — initialized' },
-  { prefix: 'ok',   text: 'Welcome. Initializing experience...' },
-];
+const MATRIX_CHARS = '0189ABCDEF!@#$%^&*()_+-=[]{}|<>?;:';
 
 const BootScreen = ({ onComplete }) => {
-  const [visibleLines, setVisibleLines] = useState([]);
-  const [progress, setProgress]         = useState(0);
-  const [showName, setShowName]         = useState(false);
-  const [exiting, setExiting]           = useState(false);
+  const [displayText, setDisplayText] = useState('');
+  const [isDecrypted, setIsDecrypted] = useState(false);
+  const [startRipple, setStartRipple] = useState(false);
+  const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
-    // Show name first
-    const nameTimer = setTimeout(() => setShowName(true), 200);
-
-    let lineIdx = 0;
-    const lineTimer = setInterval(() => {
-      if (lineIdx < bootLines.length) {
-        const current = lineIdx;
-        setVisibleLines(prev => [...prev, bootLines[current]]);
-        setProgress(Math.round(((current + 1) / bootLines.length) * 100));
-        lineIdx++;
+    let iterations = 0;
+    const maxIterations = 18; // length of decryption phase
+    
+    const interval = setInterval(() => {
+      if (iterations < maxIterations) {
+        // Generate random characters
+        const c1 = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
+        const c2 = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
+        setDisplayText(`${c1} ${c2}`);
+        iterations++;
       } else {
-        clearInterval(lineTimer);
+        clearInterval(interval);
+        // Settle into final letters
+        setDisplayText('S R');
+        setIsDecrypted(true);
+        // Trigger neon shockwave ripple
+        setStartRipple(true);
+        
+        // Wait and exit
         setTimeout(() => {
           setExiting(true);
-          setTimeout(() => onComplete(), 650);
-        }, 400);
+          setTimeout(() => onComplete(), 600);
+        }, 1000);
       }
-    }, 210);
+    }, 45); // fast updates
 
-    return () => {
-      clearTimeout(nameTimer);
-      clearInterval(lineTimer);
-    };
+    return () => clearInterval(interval);
   }, [onComplete]);
 
   return (
@@ -51,67 +46,117 @@ const BootScreen = ({ onComplete }) => {
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       style={{ pointerEvents: exiting ? 'none' : 'all' }}
     >
-      {/* Personal identity — not a product name */}
-      <motion.div
-        className="boot-identity"
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: showName ? 1 : 0, y: showName ? 0 : 16 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <div className="boot-identity-name">Sonu Rajesh</div>
-        <div className="boot-identity-role">AI &amp; Data Science Engineer</div>
-      </motion.div>
+      <div className="boot-center-container">
+        {/* Holographic scanning laser line */}
+        <AnimatePresence>
+          {!isDecrypted && (
+            <motion.div 
+              className="scan-line"
+              initial={{ top: '0%' }}
+              animate={{ top: '100%' }}
+              exit={{ opacity: 0 }}
+              transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }}
+            />
+          )}
+        </AnimatePresence>
 
-      {/* Terminal lines */}
-      <div className="boot-lines">
-        {visibleLines.map((line, i) => (
+        {/* Central Monogram */}
+        <motion.div
+          className={`boot-monogram ${isDecrypted ? 'decrypted' : 'decrypting'}`}
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+        >
+          {displayText}
+        </motion.div>
+
+        {/* Shockwave Energy Ripple */}
+        {startRipple && (
           <motion.div
-            key={i}
-            className="boot-line"
-            initial={{ opacity: 0, x: -8 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.18 }}
-          >
-            <span className={line.prefix}>[{line.prefix.toUpperCase()}]</span>
-            {line.text}
-          </motion.div>
-        ))}
-        {visibleLines.length < bootLines.length && (
-          <div className="boot-line" style={{ color: 'var(--os-text-3)' }}>
-            <span className="boot-cursor">█</span>
-          </div>
+            className="shockwave-ripple"
+            initial={{ scale: 0.5, opacity: 0.8 }}
+            animate={{ scale: 3.5, opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          />
         )}
       </div>
 
-      {/* Progress bar */}
-      <div className="boot-bar-wrap">
-        <motion.div
-          className="boot-bar"
-          animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          style={{ width: '0%' }}
-        />
-      </div>
-
       <style>{`
-        .boot-cursor { animation: blink 1s step-end infinite; }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-        .boot-identity { text-align: center; margin-bottom: 8px; }
-        .boot-identity-name {
-          font-family: 'Inter', sans-serif;
-          font-size: 2.2rem;
-          font-weight: 700;
-          letter-spacing: -0.04em;
-          color: #f2f2f4;
-          margin-bottom: 6px;
+        .boot-screen {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: #020204;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 9999;
+          overflow: hidden;
         }
-        .boot-identity-role {
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 0.75rem;
-          color: var(--os-cyan);
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          opacity: 0.8;
+        .boot-center-container {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 250px;
+          height: 250px;
+        }
+        .scan-line {
+          position: absolute;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+          box-shadow: 0 0 10px #00d4ff;
+          pointer-events: none;
+          z-index: 10;
+        }
+        .boot-monogram {
+          font-family: 'Outfit', sans-serif;
+          font-size: 5.5rem;
+          font-weight: 900;
+          letter-spacing: 0.05em;
+          text-align: center;
+          user-select: none;
+          transition: all 0.3s ease;
+        }
+        .boot-monogram.decrypting {
+          color: rgba(0, 212, 255, 0.4);
+          font-family: 'Courier New', Courier, monospace;
+          text-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+        }
+        .boot-monogram.decrypted {
+          background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #6366f1 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          filter: drop-shadow(0 0 25px rgba(99, 102, 241, 0.6));
+          text-shadow: 0 0 35px rgba(99, 102, 241, 0.4), 
+                       2px 2px 0px rgba(255, 0, 128, 0.5), 
+                       -2px -2px 0px rgba(0, 212, 255, 0.5);
+          animation: glitch-pulse 1.2s ease-in-out infinite alternate;
+        }
+        .shockwave-ripple {
+          position: absolute;
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          border: 2px solid #6366f1;
+          box-shadow: 0 0 20px #6366f1, 
+                      inset 0 0 20px #6366f1;
+          pointer-events: none;
+          z-index: 2;
+        }
+        @keyframes glitch-pulse {
+          0% {
+            transform: scale(1);
+            filter: drop-shadow(0 0 25px rgba(99, 102, 241, 0.6));
+          }
+          100% {
+            transform: scale(1.03);
+            filter: drop-shadow(0 0 35px rgba(99, 102, 241, 0.85)) brightness(1.1);
+          }
         }
       `}</style>
     </motion.div>
