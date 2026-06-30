@@ -1,0 +1,191 @@
+.credentials-section {
+  padding: var(--sp-24) 5%;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.credentials-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-12);
+  margin-top: var(--sp-4);
+}
+
+.credentials-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.column-title-container {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-6);
+  padding-bottom: var(--sp-4);
+  border-bottom: 1px solid var(--os-border);
+  width: 100%;
+}
+
+.column-icon { color: var(--os-cyan); }
+
+.column-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--os-text-2);
+}
+
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  width: 100%;
+}
+
+/* ============================================
+   CERTIFICATION CARDS
+   ============================================ */
+.credential-card {
+  display: flex;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--os-surface);
+  border-radius: var(--r-lg);
+  align-items: flex-start;
+  border: 1px solid var(--os-border);
+  transition: all var(--t-base) var(--ease);
+  cursor: default;
+}
+.credential-card:hover {
+  border-color: var(--os-border-md);
+  background: var(--os-elevated);
+  transform: none; box-shadow: none;
+}
+
+.credential-icon-wrapper {
+  background: var(--os-cyan-dim);
+  border: 1px solid rgba(0,212,255,0.2);
+  color: var(--os-cyan);
+  width: 34px; height: 34px;
+  border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--t-base) var(--ease);
+}
+.credential-card:hover .credential-icon-wrapper {
+  box-shadow: 0 0 16px rgba(0,212,255,0.2);
+}
+
+.credential-info { display: flex; flex-direction: column; }
+
+.credential-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--os-text);
+  margin-bottom: 3px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.credential-provider {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--os-cyan);
+  margin-bottom: var(--sp-2);
+}
+
+.credential-desc {
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--os-text-2);
+}
+
+/* ============================================
+   ACHIEVEMENT CARDS — glow badges
+   ============================================ */
+.achievement-card {
+  padding: var(--sp-5);
+  background: var(--os-surface);
+  border-radius: var(--r-lg);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--os-border);
+  transition: all var(--t-base) var(--ease);
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+}
+
+.achievement-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--os-amber), transparent);
+  opacity: 0.5;
+  transition: opacity var(--t-base) var(--ease);
+}
+
+.achievement-card:hover {
+  border-color: rgba(255,184,0,0.25);
+  background: var(--os-elevated);
+  transform: none; box-shadow: none;
+}
+.achievement-card:hover::before { opacity: 1; }
+
+.achievement-header { margin-bottom: var(--sp-3); }
+
+.achievement-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--os-amber);
+  background: var(--os-amber-dim);
+  border: 1px solid rgba(255,184,0,0.2);
+  padding: 3px 8px;
+  border-radius: var(--r-sm);
+}
+
+.star-icon { fill: currentColor; }
+
+.achievement-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--os-text);
+  margin-bottom: 3px;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.achievement-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--os-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--sp-2);
+}
+
+.achievement-desc {
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--os-text-2);
+}
+
+@media (max-width: 768px) {
+  .credentials-grid { grid-template-columns: 1fr; gap: var(--sp-10); }
+}

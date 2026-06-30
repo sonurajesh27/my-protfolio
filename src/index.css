@@ -1,0 +1,329 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ============================================
+   SONU.OS — DESIGN SYSTEM
+   ============================================ */
+:root {
+  /* Core OS colors */
+  --os-bg:        #0a0a0b;
+  --os-surface:   #101012;
+  --os-elevated:  #161618;
+  --os-border:    #1e1e22;
+  --os-border-md: #2a2a30;
+  --os-border-hi: #3a3a44;
+
+  /* Text */
+  --os-text:      #e8e8ec;
+  --os-text-2:    #8888a0;
+  --os-text-3:    #4a4a5e;
+
+  /* Accent — cyan/teal OS glow */
+  --os-cyan:      #00d4ff;
+  --os-cyan-dim:  rgba(0, 212, 255, 0.12);
+  --os-cyan-glow: rgba(0, 212, 255, 0.06);
+  --os-green:     #00ff88;
+  --os-green-dim: rgba(0, 255, 136, 0.1);
+  --os-amber:     #ffb800;
+  --os-amber-dim: rgba(255, 184, 0, 0.1);
+  --os-red:       #ff4466;
+  --os-red-dim:   rgba(255, 68, 102, 0.1);
+  --os-purple:    #a855f7;
+  --os-purple-dim:rgba(168, 85, 247, 0.1);
+
+  /* Per-project accent colors */
+  --proj-0: #00d4ff;
+  --proj-1: #00ff88;
+  --proj-2: #ffb800;
+  --proj-3: #a855f7;
+
+  /* Fonts */
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Spacing */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  --sp-12: 48px;--sp-16: 64px;--sp-20: 80px;--sp-24: 96px;
+  --sp-32: 128px;
+
+  /* Radius */
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-xl: 16px; --r-full: 9999px;
+
+  /* Easing */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --t-fast: 150ms; --t-base: 250ms; --t-slow: 400ms;
+}
+
+/* ============================================
+   RESET
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  background: var(--os-bg);
+  color: var(--os-text);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--os-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: none;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--os-bg); }
+::-webkit-scrollbar-thumb { background: var(--os-border-md); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--os-border-hi); }
+
+/* ============================================
+   SELECTION
+   ============================================ */
+::selection { background: var(--os-cyan-dim); color: var(--os-cyan); }
+
+/* ============================================
+   CUSTOM CURSOR
+   ============================================ */
+.cursor-dot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--os-cyan);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s var(--ease), height 0.2s var(--ease), opacity 0.2s;
+  mix-blend-mode: screen;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(0, 212, 255, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: width 0.35s var(--ease), height 0.35s var(--ease),
+              border-color 0.2s, opacity 0.2s;
+}
+
+.cursor-dot.hovering  { width: 10px; height: 10px; background: var(--os-cyan); }
+.cursor-ring.hovering { width: 48px; height: 48px; border-color: rgba(0,212,255,0.6); }
+
+/* ============================================
+   BOOT SCREEN
+   ============================================ */
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--os-bg);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-6);
+}
+
+.boot-logo {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--os-cyan);
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+}
+
+.boot-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  width: 480px;
+  max-width: 90vw;
+}
+
+.boot-line {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--os-text-2);
+  letter-spacing: 0.02em;
+}
+
+.boot-line .ok    { color: var(--os-green); margin-right: var(--sp-3); }
+.boot-line .warn  { color: var(--os-amber); margin-right: var(--sp-3); }
+.boot-line .info  { color: var(--os-cyan);  margin-right: var(--sp-3); }
+
+.boot-bar-wrap {
+  width: 480px;
+  max-width: 90vw;
+  height: 2px;
+  background: var(--os-border);
+  border-radius: var(--r-full);
+  overflow: hidden;
+  margin-top: var(--sp-4);
+}
+
+.boot-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--os-cyan), var(--os-green));
+  border-radius: var(--r-full);
+  box-shadow: 0 0 12px var(--os-cyan);
+}
+
+/* ============================================
+   BACKGROUND GRID
+   ============================================ */
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.022) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Vignette */
+.grid-overlay::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 40%, var(--os-bg) 100%);
+  pointer-events: none;
+}
+
+/* ============================================
+   OS WINDOW CHROME (shared card style)
+   ============================================ */
+.os-window {
+  background: var(--os-surface);
+  border: 1px solid var(--os-border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  transition: border-color var(--t-base) var(--ease);
+}
+
+.os-window:hover { border-color: var(--os-border-md); }
+
+.os-titlebar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--os-border);
+  background: var(--os-elevated);
+}
+
+.os-traffic {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.os-traffic span {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  display: block;
+}
+
+.os-traffic .t-red    { background: #ff5f57; }
+.os-traffic .t-yellow { background: #ffbd2e; }
+.os-traffic .t-green  { background: #28c840; }
+
+.os-titlebar-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--os-text-3);
+  letter-spacing: 0.05em;
+  margin-left: var(--sp-2);
+}
+
+/* ============================================
+   SHARED SECTION HEADER
+   ============================================ */
+.section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: var(--sp-10);
+}
+
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--os-cyan);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: var(--sp-2);
+}
+
+.section-title {
+  font-family: var(--font-sans);
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  color: var(--os-text);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+/* Legacy compat */
+.section-subtitle { display: none; }
+.header-bar       { display: none; }
+.text-gradient    { color: var(--os-text); }
+.text-gradient-purple { color: var(--os-cyan); }
+.glass-card {
+  background: var(--os-surface);
+  border: 1px solid var(--os-border);
+  border-radius: var(--r-lg);
+  transition: border-color var(--t-base) var(--ease);
+}
+.glass-card:hover { border-color: var(--os-border-md); transform: none; box-shadow: none; }
+
+/* ============================================
+   PULSE DOT
+   ============================================ */
+.pulse-dot {
+  width: 6px; height: 6px;
+  background: var(--os-green);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse 2.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0.5); }
+  50%       { box-shadow: 0 0 0 6px rgba(0,255,136,0); }
+}
+
+/* ============================================
+   SCANLINE OVERLAY (optional aesthetic)
+   ============================================ */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}

@@ -1,0 +1,233 @@
+.about-section {
+  padding: var(--sp-24) 5%;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ============================================
+   GIT LOG TIMELINE
+   ============================================ */
+.timeline-container {
+  position: relative;
+  margin-top: var(--sp-4);
+  padding: 0;
+}
+
+/* Git branch line */
+.timeline-axis {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(180deg, var(--os-cyan) 0%, var(--os-border) 100%);
+  transform: translateX(-50%);
+  z-index: 0;
+  opacity: 0.3;
+}
+
+.timeline-item {
+  position: relative;
+  display: flex;
+  margin-bottom: var(--sp-6);
+  width: 100%;
+  z-index: 1;
+}
+
+.timeline-item.left-aligned {
+  justify-content: flex-start;
+  padding-right: calc(50% + var(--sp-8));
+}
+.timeline-item.right-aligned {
+  justify-content: flex-end;
+  padding-left: calc(50% + var(--sp-8));
+}
+
+/* ============================================
+   COMMIT DOT (marker)
+   ============================================ */
+.timeline-marker {
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  transform: translate(-50%, -50%);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2;
+  transition: all var(--t-base) var(--ease);
+}
+
+.timeline-marker.exp-marker {
+  background: var(--os-bg);
+  border: 1.5px solid var(--os-cyan);
+  color: var(--os-cyan);
+  box-shadow: 0 0 12px rgba(0,212,255,0.25);
+}
+
+.timeline-marker.edu-marker {
+  background: var(--os-bg);
+  border: 1.5px solid var(--os-purple);
+  color: var(--os-purple);
+  box-shadow: 0 0 12px rgba(168,85,247,0.25);
+}
+
+.timeline-item:hover .timeline-marker.exp-marker {
+  box-shadow: 0 0 20px rgba(0,212,255,0.5);
+}
+.timeline-item:hover .timeline-marker.edu-marker {
+  box-shadow: 0 0 20px rgba(168,85,247,0.5);
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+.timeline-content-card {
+  width: 100%;
+  padding: var(--sp-5) var(--sp-6);
+  cursor: pointer;
+  background: var(--os-surface);
+  border: 1px solid var(--os-border);
+  border-radius: var(--r-lg);
+  text-align: left;
+  transition: all var(--t-base) var(--ease);
+}
+
+.timeline-content-card:hover {
+  border-color: var(--os-border-md);
+  background: var(--os-elevated);
+  transform: none;
+}
+
+/* Exp card — left cyan accent */
+.timeline-item.left-aligned .timeline-content-card {
+  border-left: 2px solid var(--os-cyan);
+}
+/* Edu card — right purple accent */
+.timeline-item.right-aligned .timeline-content-card {
+  border-right: 2px solid var(--os-purple);
+}
+
+.timeline-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--sp-3);
+}
+
+.timeline-badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  border-radius: var(--r-sm);
+}
+
+.badge-exp {
+  color: var(--os-cyan);
+  background: var(--os-cyan-dim);
+  border: 1px solid rgba(0,212,255,0.2);
+}
+.badge-edu {
+  color: var(--os-purple);
+  background: var(--os-purple-dim);
+  border: 1px solid rgba(168,85,247,0.2);
+}
+
+.timeline-period {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--os-text-3);
+  letter-spacing: 0.05em;
+}
+
+.timeline-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--os-text);
+  margin-bottom: var(--sp-1);
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.timeline-card-company {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--os-text-2);
+  margin-bottom: var(--sp-2);
+}
+
+.timeline-location {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--os-text-3);
+}
+
+.timeline-card-expanded {
+  margin-top: var(--sp-4);
+  border-top: 1px solid var(--os-border);
+  padding-top: var(--sp-4);
+}
+
+.timeline-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+}
+
+.timeline-bullets li {
+  position: relative;
+  padding-left: var(--sp-5);
+  font-size: 0.82rem;
+  color: var(--os-text-2);
+  line-height: 1.65;
+}
+
+.timeline-bullets li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--os-cyan);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.1;
+}
+
+.toggle-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--os-text-3);
+  transition: color var(--t-base) var(--ease);
+}
+.timeline-content-card:hover .toggle-indicator { color: var(--os-cyan); }
+
+/* ============================================
+   MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+  .timeline-axis { left: 14px; transform: none; }
+  .timeline-item { padding-left: 40px !important; padding-right: 0 !important; }
+  .timeline-item.left-aligned,
+  .timeline-item.right-aligned { justify-content: flex-start; }
+  .timeline-marker { left: 14px; top: 16px; width: 24px; height: 24px; }
+  .timeline-content-card { width: 100%; }
+  .timeline-item.right-aligned .timeline-content-card { border-right: none; border-left: 2px solid var(--os-purple); }
+}
