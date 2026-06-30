@@ -109,14 +109,21 @@ const Hero = () => {
           <div className="avatar-frame">
             <div className="avatar-background-glow"></div>
             
-            {/* Cybernetic HUD Corner Tags */}
-            <div className="hud-tag top-left">[ STACK // DATA_SCIENCE ]</div>
-            <div className="hud-tag top-right">[ INTEL // AGENTIC_AI ]</div>
-            <div className="hud-tag bottom-left">[ STRATEGY // B_ANALYST ]</div>
-            <div className="hud-tag bottom-right">
-              <span className="hud-pulse-dot"></span>
-              [ STATUS // ACTIVE_SCAN ]
+            {/* Outer Rotating Skill Orbit Ring with Upright Badges */}
+            <div className="avatar-orbit-outer">
+              <div className="orbit-badge badge-ds">
+                <span className="badge-text">DATA SCIENCE</span>
+              </div>
+              <div className="orbit-badge badge-ai">
+                <span className="badge-text">AGENTIC AI</span>
+              </div>
+              <div className="orbit-badge badge-ba">
+                <span className="badge-text">BUSINESS ANALYST</span>
+              </div>
             </div>
+
+            {/* Inner Counter-Rotating Orbit Ring */}
+            <div className="avatar-orbit-inner"></div>
 
             {/* Face Scan Line laser */}
             <div className="avatar-scan-line"></div>

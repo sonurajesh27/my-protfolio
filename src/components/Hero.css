@@ -316,72 +316,107 @@
   pointer-events: none;
 }
 
-.hud-tag {
+/* Outer Orbit Ring */
+.avatar-orbit-outer {
   position: absolute;
+  width: 430px;
+  height: 430px;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  border: 1px dashed rgba(0, 212, 255, 0.15);
+  z-index: 3;
+  pointer-events: none;
+  animation: rotate-cw 35s linear infinite;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.03) inset;
+}
+
+/* Inner counter-rotating Orbit Ring */
+.avatar-orbit-inner {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  border: 1.5px dotted rgba(99, 102, 241, 0.18);
+  z-index: 1;
+  pointer-events: none;
+  animation: rotate-ccw 28s linear infinite;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.02) inset;
+}
+
+/* Skill Badges on Orbit */
+.orbit-badge {
+  position: absolute;
+  pointer-events: all;
+  transform: translate(-50%, -50%);
+}
+
+.orbit-badge.badge-ds {
+  top: 0%;
+  left: 50%;
+}
+
+.orbit-badge.badge-ai {
+  top: 75%;
+  left: 93.3%;
+}
+
+.orbit-badge.badge-ba {
+  top: 75%;
+  left: 6.7%;
+}
+
+.badge-text {
+  display: inline-block;
   font-family: var(--font-mono);
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  padding: 4px 10px;
-  background: rgba(7, 8, 12, 0.9);
+  padding: 5px 12px;
+  background: rgba(7, 8, 12, 0.95);
   border: 1px solid var(--os-border-md, rgba(255,255,255,0.08));
-  border-radius: 6px;
-  z-index: 10;
-  pointer-events: none;
+  border-radius: 20px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.6);
   white-space: nowrap;
-  transition: all var(--t-base) var(--ease);
+  animation: rotate-ccw-untranslated 35s linear infinite;
 }
 
-.hud-tag.top-left {
-  top: -14px;
-  left: -18px;
-  color: #00ff88; /* Emerald green for ML/Data Science */
-  border-color: rgba(0, 255, 136, 0.3);
-  text-shadow: 0 0 5px rgba(0, 255, 136, 0.4);
-  box-shadow: 0 4px 15px rgba(0, 255, 136, 0.05);
+.badge-ds .badge-text {
+  color: #00ff88;
+  border-color: rgba(0, 255, 136, 0.35);
+  text-shadow: 0 0 4px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 255, 136, 0.08);
 }
 
-.hud-tag.top-right {
-  top: -14px;
-  right: -18px;
-  color: #00d4ff; /* Cyan for AI/GenAI */
-  border-color: rgba(0, 212, 255, 0.3);
-  text-shadow: 0 0 5px rgba(0, 212, 255, 0.4);
-  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.05);
+.badge-ai .badge-text {
+  color: #00d4ff;
+  border-color: rgba(0, 212, 255, 0.35);
+  text-shadow: 0 0 4px rgba(0, 212, 255, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.08);
 }
 
-.hud-tag.bottom-left {
-  bottom: -14px;
-  left: -18px;
-  color: #a855f7; /* Purple for BA/HCI */
-  border-color: rgba(168, 85, 247, 0.3);
-  text-shadow: 0 0 5px rgba(168, 85, 247, 0.4);
-  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.05);
+.badge-ba .badge-text {
+  color: #a855f7;
+  border-color: rgba(168, 85, 247, 0.35);
+  text-shadow: 0 0 4px rgba(168, 85, 247, 0.4);
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.08);
 }
 
-.hud-tag.bottom-right {
-  bottom: -14px;
-  right: -18px;
-  color: var(--os-text-3, #64748b);
-  border-color: var(--os-border);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+@keyframes rotate-cw {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-.hud-pulse-dot {
-  width: 6px;
-  height: 6px;
-  background-color: #00ff88;
-  border-radius: 50%;
-  box-shadow: 0 0 8px #00ff88;
-  animation: hud-blink 1.5s infinite;
+@keyframes rotate-ccw {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(-360deg); }
 }
 
-@keyframes hud-blink {
-  0%, 100% { opacity: 0.3; transform: scale(0.95); }
-  50% { opacity: 1; transform: scale(1.1); }
+@keyframes rotate-ccw-untranslated {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
 }
 
 /* Face Scan Line overlay */
@@ -477,13 +512,17 @@
   .hero-socials  { justify-content: center; }
   .hero-avatar-container { order: 1; }
   .avatar-frame  { width: 220px; }
-  .hud-tag {
-    font-size: 0.58rem;
+  .avatar-orbit-outer {
+    width: 300px;
+    height: 300px;
+  }
+  .avatar-orbit-inner {
+    width: 240px;
+    height: 240px;
+  }
+  .badge-text {
+    font-size: 0.55rem;
     padding: 3px 8px;
   }
-  .hud-tag.top-left { left: -8px; top: -10px; }
-  .hud-tag.top-right { right: -8px; top: -10px; }
-  .hud-tag.bottom-left { left: -8px; bottom: -10px; }
-  .hud-tag.bottom-right { right: -8px; bottom: -10px; }
   .hero-section::before, .hero-section::after { display: none; }
 }
