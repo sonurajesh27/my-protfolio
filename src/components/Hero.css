@@ -298,6 +298,128 @@
 .avatar-corner.br { bottom: 8px; right: 8px; border-width: 0 1.5px 1.5px 0; }
 
 /* ============================================
+   CYBERNETIC AVATAR HUD OVERLAYS & SCANS
+   ============================================ */
+.avatar-frame {
+  overflow: visible !important; /* Allow tags to sit slightly outside the border */
+}
+
+/* Custom background glow behind avatar picture */
+.avatar-background-glow {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  right: -10%;
+  bottom: -10%;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.12) 0%, transparent 60%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hud-tag {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  background: rgba(7, 8, 12, 0.9);
+  border: 1px solid var(--os-border-md, rgba(255,255,255,0.08));
+  border-radius: 6px;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+  white-space: nowrap;
+  transition: all var(--t-base) var(--ease);
+}
+
+.hud-tag.top-left {
+  top: -14px;
+  left: -18px;
+  color: #00ff88; /* Emerald green for ML/Data Science */
+  border-color: rgba(0, 255, 136, 0.3);
+  text-shadow: 0 0 5px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 255, 136, 0.05);
+}
+
+.hud-tag.top-right {
+  top: -14px;
+  right: -18px;
+  color: #00d4ff; /* Cyan for AI/GenAI */
+  border-color: rgba(0, 212, 255, 0.3);
+  text-shadow: 0 0 5px rgba(0, 212, 255, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.05);
+}
+
+.hud-tag.bottom-left {
+  bottom: -14px;
+  left: -18px;
+  color: #a855f7; /* Purple for BA/HCI */
+  border-color: rgba(168, 85, 247, 0.3);
+  text-shadow: 0 0 5px rgba(168, 85, 247, 0.4);
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.05);
+}
+
+.hud-tag.bottom-right {
+  bottom: -14px;
+  right: -18px;
+  color: var(--os-text-3, #64748b);
+  border-color: var(--os-border);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hud-pulse-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #00ff88;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00ff88;
+  animation: hud-blink 1.5s infinite;
+}
+
+@keyframes hud-blink {
+  0%, 100% { opacity: 0.3; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* Face Scan Line overlay */
+.avatar-scan-line {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+  box-shadow: 0 0 12px #00d4ff, 0 0 4px #00d4ff;
+  opacity: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Hover scanning trigger */
+.avatar-frame:hover .avatar-scan-line {
+  animation: avatar-scan 1.8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+@keyframes avatar-scan {
+  0% {
+    top: 10px;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    top: calc(100% - 10px);
+    opacity: 0;
+  }
+}
+
+/* ============================================
    SCROLL INDICATOR
    ============================================ */
 .hero-scroll-indicator {
@@ -355,5 +477,13 @@
   .hero-socials  { justify-content: center; }
   .hero-avatar-container { order: 1; }
   .avatar-frame  { width: 220px; }
+  .hud-tag {
+    font-size: 0.58rem;
+    padding: 3px 8px;
+  }
+  .hud-tag.top-left { left: -8px; top: -10px; }
+  .hud-tag.top-right { right: -8px; top: -10px; }
+  .hud-tag.bottom-left { left: -8px; bottom: -10px; }
+  .hud-tag.bottom-right { right: -8px; bottom: -10px; }
   .hero-section::before, .hero-section::after { display: none; }
 }

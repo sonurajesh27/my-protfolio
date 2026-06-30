@@ -100,18 +100,32 @@ const Hero = () => {
         </motion.div>
 
         {/* RIGHT — Portrait */}
-        <motion.div
+        <motion.div 
           className="hero-avatar-container"
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         >
           <div className="avatar-frame">
-            <img src={profilePic} alt={name} className="avatar-img" />
-            <span className="avatar-corner tl" />
-            <span className="avatar-corner tr" />
-            <span className="avatar-corner bl" />
-            <span className="avatar-corner br" />
+            <div className="avatar-background-glow"></div>
+            
+            {/* Cybernetic HUD Corner Tags */}
+            <div className="hud-tag top-left">[ STACK // DATA_SCIENCE ]</div>
+            <div className="hud-tag top-right">[ INTEL // AGENTIC_AI ]</div>
+            <div className="hud-tag bottom-left">[ STRATEGY // B_ANALYST ]</div>
+            <div className="hud-tag bottom-right">
+              <span className="hud-pulse-dot"></span>
+              [ STATUS // ACTIVE_SCAN ]
+            </div>
+
+            {/* Face Scan Line laser */}
+            <div className="avatar-scan-line"></div>
+
+            <img 
+              src={profilePic} 
+              alt={name} 
+              className="avatar-img"
+            />
           </div>
         </motion.div>
       </div>
